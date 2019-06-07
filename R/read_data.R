@@ -8,6 +8,8 @@
 #' @examples
 read_data <- function(path) {
 
+  #New text.
+
     # Make sure that path is correct format (adds "/" if needed):
     if(stringr::str_sub(path, start = -1) != "/") {
       path <- paste(path, "/*.PRN", sep = "")} else {
