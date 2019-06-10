@@ -1,15 +1,15 @@
-#' Save Data File
+#' @title Save Data File
+#'
+#' @description
+#' Exports a data file in Excel (.xslx) format.
+#'
 #' @import tibble
 #' @import writexl
 #' @import stringr
 #'
-#' @param df
-#' @param path
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#' @param df Name of the dataframe to save.
+#' @param path Location to save the file.
+
 
 save_data <- function(df, path) {
 

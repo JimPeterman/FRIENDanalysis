@@ -7,8 +7,10 @@
 save_data(df, path)
 }
 \arguments{
-\item{path}{}
+\item{df}{Name of the dataframe to save.}
+
+\item{path}{Location to save the file.}
 }
 \description{
-Save Data File
+Exports a data file in Excel (.xslx) format.
 }

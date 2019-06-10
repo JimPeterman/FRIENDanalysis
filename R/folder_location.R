@@ -1,12 +1,10 @@
-#' Finds Folder
+#' @title Folder Path Creation
+#'
+#' @description
+#' Determines the path for where a folder is located on the computer.
+#'
 #' @import easycsv
-#'
-#' @param
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
 folder_location <- function() {
   if ((Sys.info()["sysname"])=="Windows") {
     choose.dir()

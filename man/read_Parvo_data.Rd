@@ -2,13 +2,17 @@
 % Please edit documentation in R/read_Parvo_data.R
 \name{read_Parvo_data}
 \alias{read_Parvo_data}
-\title{Read Metabolic Data}
+\title{Summary of Maximal Parvo Data}
 \usage{
 read_Parvo_data(path)
 }
 \arguments{
-\item{path}{}
+\item{path}{Location of the Parvo files}
+}
+\value{
+Creates a dataframe summarizing all of the Parvo metabolic files.
 }
 \description{
-Read Metabolic Data
+Creates a summary file of maximal data from a Parvo metabolic cart.
+Data from the Parvo must be downloaded/saved in .PRN or .CSV formats.
 }

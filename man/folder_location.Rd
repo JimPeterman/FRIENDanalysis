@@ -2,13 +2,10 @@
 % Please edit documentation in R/folder_location.R
 \name{folder_location}
 \alias{folder_location}
-\title{Finds Folder}
+\title{Folder Path Creation}
 \usage{
 folder_location()
 }
-\arguments{
-\item{path}{}
-}
 \description{
-Finds Folder
+Determines the path for where a folder is located on the computer.
 }

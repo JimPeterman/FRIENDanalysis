@@ -1,16 +1,19 @@
-#' Read Metabolic Data
+#' @title Summary of Maximal Parvo Data
+#'
+#' @description
+#' Creates a summary file of maximal data from a Parvo metabolic cart.
+#' Data from the Parvo must be downloaded/saved in .PRN or .CSV formats.
+#'
 #' @import dplyr
 #' @import janitor
 #' @import tibble
 #' @import writexl
 #' @import stringr
 #'
-#' @param path
+#' @param path Location of the Parvo files
 #'
-#' @return
-#' @export
-#'
-#' @examples
+#' @return Creates a dataframe summarizing all of the Parvo metabolic files.
+
 read_Parvo_data <- function(path) {
 
     # Make sure that path is correct format (adds "/" if needed):
