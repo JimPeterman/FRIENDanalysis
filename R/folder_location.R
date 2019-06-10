@@ -11,5 +11,3 @@ folder_location <- function() {
   }
 }
 
-### Need easycsv
-
