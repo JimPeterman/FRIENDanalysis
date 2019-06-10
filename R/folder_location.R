@@ -1,6 +1,12 @@
-
-
-
+#' Finds Folder
+#' @import easycsv
+#'
+#' @param
+#'
+#' @return
+#' @export
+#'
+#' @examples
 folder_location <- function() {
   if ((Sys.info()["sysname"])=="Windows") {
     choose.dir()
