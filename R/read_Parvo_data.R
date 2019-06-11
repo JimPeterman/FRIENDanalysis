@@ -79,7 +79,7 @@ read_Parvo_data <- function(path) {
       # Metabolic cart.
       new_data[1,'Met Cart'] <- "Parvo"
       # Criteria for VO2peak.
-      new_data[1,'Criteria for peak VO2'] <- "1min avg (FRIEND code)"
+      new_data[1,'Criteria for peak VO2'] <- "20sec avg (FRIEND code)"
 
       #Create data frame of just respiratory data from the Parvo file.
       # Creates a data frame that starts at the "TIME" header and goes to the bottom of the file.
