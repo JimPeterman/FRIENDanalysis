@@ -2,7 +2,9 @@
 #'
 #' @description
 #' Creates a summary file of maximal data from a Parvo metabolic cart.
-#' Data from the Parvo must be downloaded/saved in .PRN or .CSV formats.
+#'
+#' \emph{Data from the Parvo must be downloaded/saved in .PRN
+#' or .CSV formats.}
 #'
 #' @import dplyr
 #' @import janitor
@@ -14,8 +16,8 @@
 #'
 #' @return Creates a dataframe summarizing all of the Parvo metabolic files.
 #'
-#' @seealso To make it easier to define the path (find the location of the files), use
-#' \code{\link[FRIENDanalysis]{folder_location}}.
+#' @seealso To make it easier to define the path (find the location of the files),
+#' use the function: \code{\link[FRIENDanalysis]{folder_location}}.
 #'
 #' @export
 
@@ -79,7 +81,7 @@ read_Parvo_data <- function(path) {
       # Metabolic cart.
       new_data[1,'Met Cart'] <- "Parvo"
       # Criteria for VO2peak.
-      new_data[1,'Criteria for peak VO2'] <- "20sec avg (FRIEND code)"
+      new_data[1,'Criteria for peak VO2'] <- "20sec avg (FRIEND script)"
 
       #Create data frame of just respiratory data from the Parvo file.
       # Creates a data frame that starts at the "TIME" header and goes to the bottom of the file.
@@ -97,7 +99,7 @@ read_Parvo_data <- function(path) {
         janitor::clean_names() %>%
         round(.,2)
 
-      # Creates data frame of just respiratory variables of interest (time,VO2,RER,HR).
+      # Creates data frame of just respiratory variables of interest (time,VO2,RER).
       vo2 <- resp_data %>%
         select(time,vo2_kg_stpd,rer)
       # Find the highest VO2 (/kg) and the values on either side of that value.
@@ -134,8 +136,6 @@ read_Parvo_data <- function(path) {
 
       # Ventilatory efficiency (as reported from the Parvo output).
       new_data[1,'VE/VCO2 slope'] <- ifelse(length(which(temp=="Ve/Vco2 Slope"))>0, temp[which(temp=="Ve/Vco2 Slope"),2], NA)
-
-
       new_data[1,'Peak Speed'] <-  ifelse("tm_spd" %in% colnames(resp_data), resp_data[index,'tm_spd'], NA)
       new_data[1,'Peak Grade'] <-  ifelse("tm_grd" %in% colnames(resp_data), resp_data[index,'tm_grd'], NA)
       new_data[1,'Peak Workrate Cycle'] <-  ifelse("bike_meas" %in% colnames(resp_data), resp_data[index,'bike_meas'], NA)
@@ -144,8 +144,11 @@ read_Parvo_data <- function(path) {
       # Renames some columns.
       new_data <- new_data %>% rename("ET time"="time","Peak VO2 (ml/kg/min)"="vo2_kg_stpd",
                                       "Peak RER"="rer", "VO2 Quality Check"="vo2_check")
-      # Moves the quality check column to first in the data frame.
+      # Moves the quality check column to first in the data frame and rearranges order of output.
       new_data <- new_data %>% select("VO2 Quality Check", everything())
+      new_data <- new_data %>% select("VO2 Quality Check":"Met Cart","ET time", "Peak Speed",	"Peak Grade",	"Peak Workrate Cycle",
+                                      "Peak RER",	"Peak VO2 (L)",	"Peak VO2 (ml/kg/min)",	"Criteria for peak VO2",	"Peak VE (BTPS)",
+                                      "Peak PetCO2",	"Peak HR",	"Peak O2 sat",	"VE/VCO2 slope")
       # Recodes the Mode.
       new_data$`Test Mode` <- recode(new_data$`Test Mode`,"Bike"="CY", "Treadmill"="TM")
 
