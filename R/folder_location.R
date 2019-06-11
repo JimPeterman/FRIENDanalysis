@@ -1,4 +1,4 @@
-#' @title Folder Path Creation
+#' Folder path creation
 #'
 #' @description
 #' Determines the path for where a folder is located on the computer.

@@ -1,4 +1,4 @@
-#' @title Summary of Maximal Parvo Data
+#' Summary of maximal Parvo data
 #'
 #' @description
 #' Creates a summary file of maximal data from a Parvo metabolic cart.
@@ -13,6 +13,9 @@
 #' @param path Location of the Parvo files
 #'
 #' @return Creates a dataframe summarizing all of the Parvo metabolic files.
+#'
+#' @seealso To make it easier to define the path (find the location of the files), use
+#' \code{\link[FRIENDanalysis]{folder_location}}.
 
 read_Parvo_data <- function(path) {
 

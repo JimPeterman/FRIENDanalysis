@@ -14,3 +14,7 @@ save_data(df, path)
 \description{
 Exports a data file in Excel (.xslx) format.
 }
+\seealso{
+To make it easier to define the path (where you want to save the files),
+use \code{\link[FRIENDanalysis]{folder_location}}.
+}

@@ -1,4 +1,4 @@
-#' @title Save Data File
+#' Save Data File
 #'
 #' @description
 #' Exports a data file in Excel (.xslx) format.
@@ -9,7 +9,10 @@
 #'
 #' @param df Name of the dataframe to save.
 #' @param path Location to save the file.
-
+#'
+#' @seealso To make it easier to define the path (where you want to save the files),
+#' use \code{\link[FRIENDanalysis]{folder_location}}.
+#'
 
 save_data <- function(df, path) {
 

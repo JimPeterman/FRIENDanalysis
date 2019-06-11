@@ -2,7 +2,7 @@
 % Please edit documentation in R/folder_location.R
 \name{folder_location}
 \alias{folder_location}
-\title{Folder Path Creation}
+\title{Folder path creation}
 \usage{
 folder_location()
 }
