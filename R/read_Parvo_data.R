@@ -16,6 +16,8 @@
 #'
 #' @seealso To make it easier to define the path (find the location of the files), use
 #' \code{\link[FRIENDanalysis]{folder_location}}.
+#'
+#' @export
 
 read_Parvo_data <- function(path) {
 

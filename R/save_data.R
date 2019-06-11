@@ -13,6 +13,8 @@
 #' @seealso To make it easier to define the path (where you want to save the files),
 #' use \code{\link[FRIENDanalysis]{folder_location}}.
 #'
+#' @export
+#'
 
 save_data <- function(df, path) {
 
