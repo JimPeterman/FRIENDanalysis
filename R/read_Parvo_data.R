@@ -99,6 +99,11 @@ read_Parvo_data <- function(path) {
         janitor::clean_names() %>%
         round(.,2)
 
+      # Creates a column if RER is missing.
+      if(!"rer" %in% colnames(resp_data)) {
+        resp_data$rer <- NA
+      }
+
       # Creates data frame of just respiratory variables of interest (time,VO2,RER).
       vo2 <- resp_data %>%
         select(time,vo2_kg_stpd,rer)
@@ -140,13 +145,15 @@ read_Parvo_data <- function(path) {
       new_data[1,'Peak Grade'] <-  ifelse("tm_grd" %in% colnames(resp_data), resp_data[index,'tm_grd'], NA)
       new_data[1,'Peak Workrate Cycle'] <-  ifelse("bike_meas" %in% colnames(resp_data), resp_data[index,'bike_meas'], NA)
 
+      # When RER is missing, error message printed.
+      if(is.na(vo2$rer)) {new_data$vo2_check <- "RER Missing"}
 
       # Renames some columns.
       new_data <- new_data %>% rename("ET time"="time","Peak VO2 (ml/kg/min)"="vo2_kg_stpd",
-                                      "Peak RER"="rer", "VO2 Quality Check"="vo2_check")
+                                      "Peak RER"="rer", "Quality Check"="vo2_check")
       # Moves the quality check column to first in the data frame and rearranges order of output.
-      new_data <- new_data %>% select("VO2 Quality Check", everything())
-      new_data <- new_data %>% select("VO2 Quality Check":"Met Cart","ET time", "Peak Speed",	"Peak Grade",	"Peak Workrate Cycle",
+      new_data <- new_data %>% select("Quality Check", everything())
+      new_data <- new_data %>% select("Quality Check":"Met Cart","ET time", "Peak Speed",	"Peak Grade",	"Peak Workrate Cycle",
                                       "Peak RER",	"Peak VO2 (L)",	"Peak VO2 (ml/kg/min)",	"Criteria for peak VO2",	"Peak VE (BTPS)",
                                       "Peak PetCO2",	"Peak HR",	"Peak O2 sat",	"VE/VCO2 slope")
       # Recodes the Mode.
@@ -157,6 +164,6 @@ read_Parvo_data <- function(path) {
       rm(temp, vo2, new_data, resp_data,index,ind,n_cols,temp_vec)
     }
     # Reorders so "Check" is at top.
-    data <- data[order(data$`VO2 Quality Check`),]
+    data <- data[order(factor(data$`Quality Check`, levels = c("RER Missing", "Check", "Good"))),]
     return(data)
   }
