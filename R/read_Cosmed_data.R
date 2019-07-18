@@ -1,15 +1,25 @@
 
-# ------------------------------------------------
-library(devtools)
-install_github("JimPeterman/FRIENDanalysis")
-library(FRIENDanalysis)
-library(stringr)
-library(dplyr)
-library(tibble)
-library(readxl)
-
-
-path <- folder_location()
+#' Summary of maximal Cosmed data
+#'
+#' @description
+#' Creates a summary file of maximal data from a Cosmed metabolic cart.
+#'
+#' \emph{Data from the Cosmed must be saved in .xlsx formats.}
+#'
+#' @import dplyr
+#' @import janitor
+#' @import tibble
+#' @import writexl
+#' @import stringr
+#'
+#' @param path Location of the Cosmed files
+#'
+#' @return Creates a dataframe summarizing all of the Cosmed metabolic files.
+#'
+#' @seealso To make it easier to define the path (find the location of the files),
+#' use the function: \code{\link[FRIENDanalysis]{folder_location}}.
+#'
+#' @export
 
 # ------------------------------------------------
 read_Cosmed_data <- function(path) {
