@@ -57,7 +57,7 @@ read_Cosmed_data <- function(path) {
     # Criteria for VO2peak.
     new_data[1,'Criteria for peak VO2'] <- "20sec avg (FRIEND script)"
 
-    #Create data frame of just respiratory data from the Parvo file.
+    # Create data frame of just respiratory data from the Parvo file.
     # Creates a data frame that starts at the "TIME" header and goes to the bottom of the file.
     resp_data <- temp[,-(1:9)]
     # Add in the column names (combining the first and second rows).
