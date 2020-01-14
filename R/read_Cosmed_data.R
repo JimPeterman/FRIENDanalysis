@@ -9,7 +9,7 @@
 #' @import dplyr
 #' @import janitor
 #' @import tibble
-#' @import writexl
+#' @import readxl
 #' @import stringr
 #'
 #' @param path Location of the Cosmed files
@@ -20,6 +20,7 @@
 #' use the function: \code{\link[FRIENDanalysis]{folder_location}}.
 #'
 #' @export
+
 
 # ------------------------------------------------
 read_Cosmed_data <- function(path) {
@@ -40,7 +41,7 @@ read_Cosmed_data <- function(path) {
 
   # Read in files as temporary data frame:
   for(i in 1:length(files)) {
-    temp <- read_excel(files[i], col_names = F)
+    temp <- suppressMessages(read_excel(files[i], col_names = F))
 
     # Inialize empty data frame that'll have summary data from subject file.
     new_data <- tibble()
@@ -67,7 +68,7 @@ read_Cosmed_data <- function(path) {
     # Criteria for VO2peak.
     new_data[1,'Criteria for peak VO2'] <- "20sec avg (FRIEND script)"
 
-    # Create data frame of just respiratory data from the Parvo file.
+    # Create data frame of just respiratory data from the file.
     # Creates a data frame that starts at the "TIME" header and goes to the bottom of the file.
     resp_data <- temp[,-(1:9)]
     # Add in the column names (combining the first and second rows).
@@ -77,16 +78,17 @@ read_Cosmed_data <- function(path) {
     # Cleans column names.
     resp_data <- resp_data %>%
       janitor::clean_names()
-    # Selects the variables of interest
-    resp_data %>%
-      select(t_s, vo2_kg_m_l_min_kg, rq, vo2_m_l_min, hr_bpm, ve_l_min, pet_co2_mm_hg,
-             sp_o2_percent, grade_percent, speed_mph) %>%
-      mutate_all(as.numeric)
+    resp_data[] <- suppressWarnings(lapply(resp_data, as.numeric))
     # Adjusts units for certain variables.
     resp_data$t_s <- (resp_data$t_s)*1440
     resp_data$vo2_m_l_min <- (resp_data$vo2_m_l_min)/1000
     resp_data <- resp_data %>%
       round(.,2)
+
+    # Creates a few columns if they are missing.
+    if(!"rq" %in% colnames(resp_data)) {
+      resp_data$rq <- NA
+    }
 
     # Creates data frame of just respiratory variables of interest (time,VO2,RER).
     vo2 <- resp_data %>%
@@ -110,36 +112,42 @@ read_Cosmed_data <- function(path) {
     # Combines data frames so there's one summary data frame for the subject.
     new_data <- bind_cols(new_data, vo2)
 
-    # Adds in other variables if present in the Parvo file.
-    new_data[1,'Peak VO2 (L)'] <- resp_data[index,'vo2_m_l_min']
-    new_data[1,'Peak HR'] <-resp_data[index,'hr_bpm']
-    # Peak ventilation.
-    new_data[1,'Peak VE (BTPS)'] <- resp_data[index,'ve_l_min']
-    # Peak petCO2.
-    new_data[1,'Peak PetCO2'] <- resp_data[index,'pet_co2_mm_hg']
-    # O2 saturation at peak.
-    new_data[1,'Peak O2 sat'] <- resp_data[index,'sp_o2_percent']
+    new_data[1,'Peak VO2 (L)'] <- ifelse("vo2_m_l_min" %in% colnames(resp_data), resp_data[index,'vo2_m_l_min'], NA)
+    new_data[1,'Peak HR'] <- ifelse("hr_bpm" %in% colnames(resp_data), resp_data[index,'hr_bpm'], NA)
+    new_data[1,'Peak VE (BTPS)'] <- ifelse("ve_l_min" %in% colnames(resp_data), resp_data[index,'ve_l_min'], NA)
+    new_data[1,'Peak PetCO2'] <- ifelse("pet_co2_mm_hg" %in% colnames(resp_data), resp_data[index,'pet_co2_mm_hg'], NA)
+    new_data[1,'Peak O2 sat'] <- ifelse("sp_o2_percent" %in% colnames(resp_data), resp_data[index,'sp_o2_percent'], NA)
 
-    # Average ventalitory efficiency (calculated from the data).
-    # new_data[1,'VE/VCO2 slope'] <- ifelse("ve_btps" %in% colnames(resp_data) & "vco2_stpd" %in% colnames(resp_data),
-    #                                    round(lm(resp_data$ve_btps ~ resp_data$vco2_stpd)$coefficients[[2]],2),NA)
+    # Adds in other variables if present in the Cosmed file.
+    new_data[1,'Peak VO2 (L)'] <- ifelse("vo2_m_l_min" %in% colnames(resp_data), resp_data[index,'vo2_m_l_min'], NA)
+    new_data[1,'Peak HR'] <- ifelse("hr_bpm" %in% colnames(resp_data), resp_data[index,'hr_bpm'], NA)
+    new_data[1,'Peak VE (BTPS)'] <- ifelse("ve_l_min" %in% colnames(resp_data), resp_data[index,'ve_l_min'], NA)
+    new_data[1,'Peak PetCO2'] <- ifelse("pet_co2_mm_hg" %in% colnames(resp_data), resp_data[index,'pet_co2_mm_hg'], NA)
+    new_data[1,'Peak O2 sat'] <- ifelse("sp_o2_percent" %in% colnames(resp_data), resp_data[index,'sp_o2_percent'], NA)
+    # Ventalitory efficiency (determined as the value at max).
+    new_data[1,'VE/VCO2 slope'] <- ifelse("ve_vco2" %in% colnames(resp_data), resp_data[index,'ve_vco2'], NA)
 
-    # Ventilatory efficiency (as reported from the Parvo output).
-    new_data[1,'VE/VCO2 slope'] <- ifelse(length(which(temp=="Ve/Vco2 Slope"))>0, temp[which(temp=="Ve/Vco2 Slope"),2], NA)
-    new_data[1,'Peak Speed'] <-  resp_data[index,'speed_mph']
-    new_data[1,'Peak Grade'] <-  resp_data[index,'grade_percent']
-    new_data[1,'Peak Workrate Cycle'] <-  ifelse("bike_meas" %in% colnames(resp_data), resp_data[index,'bike_meas'], NA)
+    #############################################
+
+    new_data[1,'Peak Speed'] <- ifelse("speed_mph" %in% colnames(resp_data), resp_data[index,'speed_mph'], NA)
+    new_data[1,'Peak Grade'] <- ifelse("grade_percent" %in% colnames(resp_data), resp_data[index,'grade_percent'], NA)
+    new_data[1,'Peak Workrate Cycle'] <- ifelse("power_watt" %in% colnames(resp_data), resp_data[index,'power_watt'], NA)
+    #############################################
 
     # Test mode.
-    new_data[1,'Test Mode'] <- ifelse(!(is.na(resp_data[index,'speed_mph'])) & resp_data[index,'speed_mph'] > 0, "TM", NA)
+    new_data[1,'Test Mode'] <- ifelse("speed_mph" %in% colnames(resp_data), "TM",
+                                      ifelse("power_watt" %in% colnames(resp_data), "CY", NA))
+
+    # When RER is missing, error message printed.
+    if(is.na(vo2$rq)) {new_data$vo2_check <- "RER/RQ Missing"}
 
     # Renames some columns.
     new_data <- new_data %>% rename("ET time"="t_s","Peak VO2 (ml/kg/min)"="vo2_kg_m_l_min_kg",
-                                    "Peak RER"="rq", "VO2 Quality Check"="vo2_check")
+                                    "Peak RER"="rq", "Quality Check"="vo2_check")
     # Moves the quality check column to first in the data frame and rearranges order of output.
-    new_data <- new_data %>% select("VO2 Quality Check", everything())
+    new_data <- new_data %>% select("Quality Check", everything())
 
-    new_data <- new_data %>% select("VO2 Quality Check":"Weight", "Test Mode", "Met Cart","ET time", "Peak Speed",
+    new_data <- new_data %>% select("Quality Check":"Weight", "Test Mode", "Met Cart","ET time", "Peak Speed",
                                     "Peak Grade",	"Peak Workrate Cycle", "Peak RER",	"Peak VO2 (L)",
                                     "Peak VO2 (ml/kg/min)",	"Criteria for peak VO2",	"Peak VE (BTPS)",
                                     "Peak PetCO2",	"Peak HR",	"Peak O2 sat",	"VE/VCO2 slope")
@@ -147,9 +155,9 @@ read_Cosmed_data <- function(path) {
 
     # Combines subject data frame into one master data frame and drops the other data frames.
     data <- bind_rows(data, new_data)
-    rm(temp, vo2, new_data, resp_data,index,ind,n_cols,temp_vec)
+    rm(temp, vo2, new_data, resp_data,index)
   }
   # Reorders so "Check" is at top.
-  data <- data[order(data$`VO2 Quality Check`),]
+  data <- data[order(factor(data$`Quality Check`, levels = c("RER Missing", "Check", "Good"))),]
   return(data)
 }
