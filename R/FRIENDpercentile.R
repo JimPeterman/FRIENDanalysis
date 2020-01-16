@@ -1,26 +1,21 @@
 #' Determine FRIEND fitness percentile
 #'
-#' @description
-#' Calculates age- and sex-based fitness percentiles from relative VO2max values.
-#' Fitness percentiles are from the FRIEND Registry (a database of
-#' directly-measured VO2max tests) for males and females aged 20-79 years.
-#'
-#' Treadmill fitness percentiles are from Kaminsky et al. Mayo Clin Proc 2015
-#' Cycling fitness percentiles are from Kaminsky et al. Mayo Clin Proc 2017
-#'
-#' \emph{When exercise test mode is unknown, the treadmill reference standard is used.
-#' Also note, those with a percentile above 95 are classified as 98% and those with
-#' a percentile below 5 are classified as 3%.}
-#'
+#' Calculates age- and sex-based fitness percentiles from relative VO2max values.\cr
+#' Fitness percentiles are from the FRIEND Registry
+#' (Treadmill fitness percentiles are from Kaminsky et al. Mayo Clin Proc 2015.
+#' Cycling fitness percentiles are from Kaminsky et al. Mayo Clin Proc 2017.)
 #'
 #' @import dplyr
 #'
-#' @param VO2 The relative VO2max (ml/kg/min)
-#' @param age Participant's age in years
-#' @param sex Participant's sex (must begin with "m" for male and "f" for female)
-#' @param ex_mode The exercise test mode (must begin with "t" for treadmill or "c" for cycling)
+#' @param VO2 The relative VO2max (ml/kg/min).
+#' @param age Participant's age (years).
+#' @param sex Participant's sex (must begin with 'm' for male and 'f' for female - not case sensitive).
+#' @param ex_mode The exercise test mode (must begin with 't' for treadmill or 'c' for cycling - not case sensitive).
 #'
-#' @return Calculates age- and sex-based fitness percentiles from relative VO2max values.
+#' @return Returns age- and sex-based fitness percentile.\cr
+#' When exercise test mode is unknown, the treadmill reference standard is used.
+#' Also percentiles above 95 are classified as 98 percent and percentiles below 5 are classified as 3 percent.\cr
+#' \emph{Only returns percentiles for those aged 20-79 years.}
 #'
 #'
 #' @export

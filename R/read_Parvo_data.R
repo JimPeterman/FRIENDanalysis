@@ -3,8 +3,7 @@
 #' @description
 #' Creates a summary file of maximal data from a Parvo metabolic cart.
 #'
-#' \emph{Data from the Parvo must be downloaded/saved in .PRN
-#' or .CSV formats.}
+#' \emph{Data from the Parvo must be downloaded/saved in .PRN or .CSV formats.}
 #'
 #' @import dplyr
 #' @import janitor
