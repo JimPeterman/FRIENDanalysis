@@ -130,8 +130,8 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode){
           # Find percentiles/values above/below of the given VO2.
 
           # When a value is the same across multiple percentiles, use the largest.
-          if((length(which(temp_df[,name_col] == VT[i])))>1){
-            FRIENDpercVT[i] <- temp_df[(min(which(temp_df[,name_col] == VT[i]))), "Perc"]
+          if((length(which(temp_df[,name_col] == VO2[i])))>1){
+            FRIENDperc[i] <- temp_df[(min(which(temp_df[,name_col] == VO2[i]))), "Perc"]
           } else {
             # Otherwise find difference between two closest percentiles.
             highPerc <- max(which(temp_df[,name_col] >= VO2[i]))
