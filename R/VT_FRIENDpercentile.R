@@ -131,11 +131,8 @@ VT_FRIENDpercentile <- function(VT, age, sex, ex_mode){
           # When a value is the same across multiple percentiles, use the largest.
           if((length(which(temp_df[,name_col] == VT[i])))>1){
             FRIENDpercVT[i] <- temp_df[(min(which(temp_df[,name_col] == VT[i]))), "Perc"]
-          }
-
-          # Otherwise find difference between two closest percentiles.
-          if((length(which(temp_df[,name_col] == VT[i])))==1){
-
+          } else {
+            # Otherwise find difference between two closest percentiles.
             highPerc <- max(which(temp_df[,name_col] >= VT[i]))
             lowPerc <- min(which(temp_df[,name_col] < VT[i]))
 
@@ -143,7 +140,7 @@ VT_FRIENDpercentile <- function(VT, age, sex, ex_mode){
             lowVT <- temp_df[lowPerc, name_col]
 
             # Determine the FRIEND percentile.
-            # VO2 per percentile
+            # VT per percentile
             percPerVT <- (5 / (highVT - lowVT))
 
             overLowVT <- round((VT[i] - lowVT), 2)
@@ -152,6 +149,7 @@ VT_FRIENDpercentile <- function(VT, age, sex, ex_mode){
 
             FRIENDpercVT[i] <- round(((temp_df[lowPerc, "Perc"]) + addPerc),0)
           }
+
         }
 
         if(VT[i] > temp_df[1, name_col]){
