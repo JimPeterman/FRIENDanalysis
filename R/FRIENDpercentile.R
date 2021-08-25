@@ -2,22 +2,26 @@
 #' Determine FRIEND fitness percentile
 #'
 #' Calculates age- and sex-based fitness percentiles from relative VO2max values.\cr
-#' Fitness percentiles are from the FRIEND Registry
+#' Fitness percentiles are from the FRIEND Registry.
 #'
 #' @import dplyr
 #'
 #' @param VO2 The relative VO2max (ml/kg/min).
 #' @param age Participant's age (years).
-#' @param sex Participant's sex (must begin with 'm' for male and 'f' for female - not case sensitive).
-#' @param ex_mode The exercise test mode (must begin with 't' for treadmill or 'c' for cycling - not case sensitive).
-#' @param ref_edition Default/blank uses standards from 2021 publication. Use '1' for original 2015 (TM) and 2017 (CY) standards.
+#' @param sex Participant's sex (must begin with 'm' for male/man and
+#' 'f' or 'w' for female/woman - not case sensitive).
+#' @param ex_mode The exercise test mode (must begin with 't' for treadmill or
+#' 'c' for cycling - not case sensitive).
+#' @param ref_edition Default uses standards from 2021 publication.
+#' Use '1' for original 2015 (TM) and 2017 (CY) standards.
 #'
 #' @return Returns age- and sex-based fitness percentile.\cr
 #' When exercise test mode is unknown, the treadmill reference standard is used.
 #' Percentiles above 95 are classified as 98 percent
 #' and percentiles below 5 are classified as 3 percent.
 #' The 2021 reference standards used are based on inclusion criteria of RER ≥ 1.10.\cr
-#' \emph{Only returns percentiles for those aged 20-89 years (only 20-79 years if using 2015/2017 standards).}
+#' \emph{Only returns percentiles for those aged 20-89 years
+#' (only 20-79 years if using 2015/2017 standards).}
 #'
 #'
 #' @export
@@ -184,7 +188,8 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode, ref_edition=2){
                                                             ifelse(age[i] >= 80 & age[i] < 90, "m80", NA)))))))
     }
 
-    if(!(is.na(sex[i])) & substr(tolower(sex[i]), 1, 1) == "f"){
+    if(!(is.na(sex[i])) &
+       (substr(tolower(sex[i]), 1, 1) == "f" | substr(tolower(sex[i]), 1, 1) == "w")){
       name_col <- ifelse(age[i] >= 20 & age[i] < 30, "f20",
                          ifelse(age[i] >= 30 & age[i] < 40, "f30",
                                 ifelse(age[i] >= 40 & age[i] < 50, "f40",

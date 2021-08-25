@@ -11,11 +11,14 @@ FRIENDpercentile(VO2, age, sex, ex_mode, ref_edition = 2)
 
 \item{age}{Participant's age (years).}
 
-\item{sex}{Participant's sex (must begin with 'm' for male and 'f' for female - not case sensitive).}
+\item{sex}{Participant's sex (must begin with 'm' for male/man and
+'f' or 'w' for female/woman - not case sensitive).}
 
-\item{ex_mode}{The exercise test mode (must begin with 't' for treadmill or 'c' for cycling - not case sensitive).}
+\item{ex_mode}{The exercise test mode (must begin with 't' for treadmill or
+'c' for cycling - not case sensitive).}
 
-\item{ref_edition}{Default/blank uses standards from 2021 publication. Use '1' for original 2015 (TM) and 2017 (CY) standards.}
+\item{ref_edition}{Default uses standards from 2021 publication.
+Use '1' for original 2015 (TM) and 2017 (CY) standards.}
 }
 \value{
 Returns age- and sex-based fitness percentile.\cr
@@ -23,9 +26,10 @@ When exercise test mode is unknown, the treadmill reference standard is used.
 Percentiles above 95 are classified as 98 percent
 and percentiles below 5 are classified as 3 percent.
 The 2021 reference standards used are based on inclusion criteria of RER ≥ 1.10.\cr
-\emph{Only returns percentiles for those aged 20-89 years (only 20-79 years if using 2015/2017 standards).}
+\emph{Only returns percentiles for those aged 20-89 years
+(only 20-79 years if using 2015/2017 standards).}
 }
 \description{
 Calculates age- and sex-based fitness percentiles from relative VO2max values.\cr
-Fitness percentiles are from the FRIEND Registry
+Fitness percentiles are from the FRIEND Registry.
 }

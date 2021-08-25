@@ -11,14 +11,17 @@ VT_FRIENDpercentile(VT, age, sex, ex_mode)
 
 \item{age}{Participant's age (years).}
 
-\item{sex}{Participant's sex (must begin with 'm' for male and 'f' for female - not case sensitive).}
+\item{sex}{Participant's sex (must begin with 'm' for male/man and
+'f' or 'w' for female/woman - not case sensitive).}
 
-\item{ex_mode}{The exercise test mode (must begin with 't' for treadmill or 'c' for cycling - not case sensitive).}
+\item{ex_mode}{The exercise test mode (must begin with 't' for treadmill or
+'c' for cycling - not case sensitive).}
 }
 \value{
 Returns age- and sex-based percentiles.\cr
 When exercise test mode is unknown, the treadmill reference standard is used.
-Also percentiles above 95 are classified as 98 percent and percentiles below 5 are classified as 3 percent.\cr
+Also percentiles above 95 are classified as 98 percent and
+percentiles below 5 are classified as 3 percent.\cr
 \emph{Only returns percentiles for those aged 20-79 years.}
 }
 \description{

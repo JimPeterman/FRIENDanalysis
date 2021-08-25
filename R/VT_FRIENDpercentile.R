@@ -8,12 +8,15 @@
 #'
 #' @param VT The ventilatory threshold (ml/kg/min).
 #' @param age Participant's age (years).
-#' @param sex Participant's sex (must begin with 'm' for male and 'f' for female - not case sensitive).
-#' @param ex_mode The exercise test mode (must begin with 't' for treadmill or 'c' for cycling - not case sensitive).
+#' @param sex Participant's sex (must begin with 'm' for male/man and
+#' 'f' or 'w' for female/woman - not case sensitive).
+#' @param ex_mode The exercise test mode (must begin with 't' for treadmill or
+#' 'c' for cycling - not case sensitive).
 #'
 #' @return Returns age- and sex-based percentiles.\cr
 #' When exercise test mode is unknown, the treadmill reference standard is used.
-#' Also percentiles above 95 are classified as 98 percent and percentiles below 5 are classified as 3 percent.\cr
+#' Also percentiles above 95 are classified as 98 percent and
+#' percentiles below 5 are classified as 3 percent.\cr
 #' \emph{Only returns percentiles for those aged 20-79 years.}
 #'
 #'
@@ -109,7 +112,8 @@ VT_FRIENDpercentile <- function(VT, age, sex, ex_mode){
                                                      ifelse(age[i] >= 70 & age[i] < 80, "m70", NA))))))
     }
 
-    if(!(is.na(sex[i])) & substr(tolower(sex[i]), 1, 1) == "f"){
+    if(!(is.na(sex[i])) &
+       (substr(tolower(sex[i]), 1, 1) == "f" | substr(tolower(sex[i]), 1, 1) == "w")){
       name_col <- ifelse(age[i] >= 20 & age[i] < 30, "f20",
                          ifelse(age[i] >= 30 & age[i] < 40, "f30",
                                 ifelse(age[i] >= 40 & age[i] < 50, "f40",
