@@ -91,9 +91,9 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode, ref_edition=2){
 
   }
 
-  df_tm <- data.frame(Perc, m20, m30,m40, m50, m60, m70, m80,
-                      f20, f30,f40, f50, f60, f70, f80)
-  rm(m20, m30,m40, m50, m60, m70, m80, f20, f30,f40, f50, f60, f70, f80)
+  df_tm <- data.frame(Perc, m20, m30, m40, m50, m60, m70, m80,
+                      f20, f30, f40, f50, f60, f70, f80)
+  rm(m20, m30, m40, m50, m60, m70, m80, f20, f30, f40, f50, f60, f70, f80)
 
 
   # Create dataframes for the CYCLING classifications
@@ -201,7 +201,7 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode, ref_edition=2){
     if(!(is.na(name_col))) {
 
       if(!is.na(VO2[i])){
-        if(VO2[i] < temp_df[2, name_col] & VO2[i] > temp_df[19, name_col]){
+        if(VO2[i] < temp_df[1, name_col] & VO2[i] > temp_df[19, name_col]){
           # Find percentiles/values above/below of the given VO2.
 
           # When a value is the same across multiple percentiles, use the largest.
@@ -223,7 +223,7 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode, ref_edition=2){
 
             addPerc <- percPerVO2 * overLowVO2
 
-            FRIENDperc[i] <- round(((temp_df[lowPerc, "Perc"]) + addPerc),0)
+            FRIENDperc[i] <- round(((temp_df[lowPerc, "Perc"]) + addPerc), 0)
           }
 
         }
