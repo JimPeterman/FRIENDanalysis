@@ -41,7 +41,7 @@ read_Parvo_data <- function(path) {
     # Drops files that are open/hidden within the folder.
     files <- files[!grepl('/~',files)]
 
-    # Initialize empty data frame that'll compile the data.
+    # Initialize the data frame that'll compile the data.
     data <- tibble()
 
     # Read in files as temporary data frame:
@@ -59,27 +59,16 @@ read_Parvo_data <- function(path) {
       new_data <- tibble()
 
       # Add in the subject data.
-      # Name.
       new_data[1,'Name (DELETE before submitting)'] <- paste(temp[[5,2]],temp[[5,3]],sep = ", ")
-      # ID number.
       new_data[1,'Individual #'] <- i
-      # Facility
       new_data[1,'Facility'] <- temp[1,1]
-      # Test Date.
       new_data[1,'Test Date'] <- paste(c(temp[[3,4]],"/", temp[[3,6]], "/",temp[[3,2]]),collapse = "")
-      # Age.
       new_data[1,'Age'] <- temp[[6,2]]
-      # Gender.
       new_data[1,'Gender'] <- temp[[6,5]]
-      # Height.
       new_data[1,'Height'] <- as.numeric(temp[[7,2]])
-      # Weight.
       new_data[1,'Weight'] <- round(as.numeric(temp[[7,7]]),1)
-      # Test mode.
       new_data[1,'Test Mode'] <- temp[[11,2]]
-      # Metabolic cart.
       new_data[1,'Met Cart'] <- "Parvo"
-      # Criteria for VO2peak.
       new_data[1,'Criteria for peak VO2'] <- "20sec avg (FRIEND script)"
 
       #Create data frame of just respiratory data from the Parvo file.
@@ -127,11 +116,8 @@ read_Parvo_data <- function(path) {
       # Adds in other variables if present in the Parvo file.
       new_data[1,'Peak VO2 (L)'] <- ifelse("vo2_stpd" %in% colnames(resp_data), resp_data[index,'vo2_stpd'], NA)
       new_data[1,'Peak HR'] <- ifelse("hr" %in% colnames(resp_data), resp_data[index,'hr'], NA)
-      # Peak ventilation.
       new_data[1,'Peak VE (BTPS)'] <- ifelse("ve_btps" %in% colnames(resp_data), resp_data[index,'ve_btps'], NA)
-      # Peak petCO2.
       new_data[1,'Peak PetCO2'] <- ifelse("pet_co2_na" %in% colnames(resp_data), resp_data[index,'pet_co2_na'], NA)
-      # O2 saturation at peak.
       new_data[1,'Peak O2 sat'] <- ifelse("spo2_na" %in% colnames(resp_data), resp_data[index,'spo2_na'], NA)
 
       # Average ventalitory efficiency (calculated from the data).
