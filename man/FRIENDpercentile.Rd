@@ -24,6 +24,7 @@ Use '1' (numeric or character) for original 2015 (TM) and 2017 (CY) standards.}
 Returns age- and sex-based fitness percentile.\cr
 When exercise test mode is unknown, the treadmill reference standard is used.
 The 2022 reference standards used are based on inclusion criteria of RER ≥ 1.10.\cr
+
 \emph{Only returns percentiles for those aged 20-89 years
 (only 20-79 years if using 2015/2017 standards).}
 }
