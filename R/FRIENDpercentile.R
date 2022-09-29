@@ -200,6 +200,10 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode, ref_edition=2){
                                                             ifelse(age[i] >= 80 & age[i] < 90, "f80", NA)))))))
     }
 
+    if((ref_edition == 1 | ref_edition == "1") & age[i] >= 80){
+      name_col <- NA
+    }
+
     if(is.na(sex[i])){
       name_col <- NA
     }
@@ -294,14 +298,6 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode, ref_edition=2){
 
         }
       }
-    }
-
-    if((ref_edition == 1 | ref_edition == "1") & age[i] >= 80){
-      FRIENDperc[i] <- NA
-    }
-
-    if(age[i] >= 90){
-      FRIENDperc[i] <- NA
     }
 
     if(is.na(VO2[i])){
