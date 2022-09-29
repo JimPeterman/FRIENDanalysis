@@ -205,7 +205,7 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode, ref_edition=2){
 
         if(!is.na(VO2[i])){
 
-          if((ref_edition != 1 | ref_edition != "1") & age[i] < 80){
+          if(!((ref_edition == 1 | ref_edition == "1") & age[i] >= 80)){
 
             if(VO2[i] < temp_df[2, name_col] & VO2[i] > temp_df[20, name_col]){
               # Find percentiles/values above/below of the given VO2.
@@ -293,7 +293,7 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode, ref_edition=2){
       }
     }
 
-    if((ref_edition != 1 | ref_edition != "1") & age[i] >= 80){
+    if((ref_edition == 1 | ref_edition == "1") & age[i] >= 80){
       FRIENDperc[i] <- NA
     }
 
