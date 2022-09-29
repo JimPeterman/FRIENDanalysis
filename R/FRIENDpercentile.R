@@ -291,19 +291,21 @@ FRIENDpercentile <- function(VO2, age, sex, ex_mode, ref_edition=2){
 
         }
       }
-    }
-
-    if((ref_edition == 1 | ref_edition == "1") & age[i] >= 80){
+    } else {
       FRIENDperc[i] <- NA
     }
 
-    if(is.na(VO2[i])){
-      FRIENDperc[i] <- NA
-    }
-
-    if(is.na(name_col)) {
-      FRIENDperc[i] <- NA
-    }
+    # if((ref_edition == 1 | ref_edition == "1") & age[i] >= 80){
+    #   FRIENDperc[i] <- NA
+    # }
+    #
+    # if(is.na(VO2[i])){
+    #   FRIENDperc[i] <- NA
+    # }
+    #
+    # if(is.na(name_col)) {
+    #   FRIENDperc[i] <- NA
+    # }
     rm(name_col, temp_df)
   }
   return(FRIENDperc)
